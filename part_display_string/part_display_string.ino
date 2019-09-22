@@ -335,7 +335,9 @@ void showString(const char message[], int x, int y) {
       // if 0 <= message[letter] < 256 ok
       tempBuff[i] = ~cp437_font[message[letter]][i];
     }
+    
     EPD.partDisplay(x, y - letter * fontSize, tempBuff, fontSize, fontSize);
+    EPD.partUpdate();
   }
 
 }
