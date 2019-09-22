@@ -314,9 +314,9 @@ void loop()
   //   delay(2000);
   // }
 
-  showString("hello !", 70, 50);
+  showString("hello !", 70, 100);
   delay(1000);
-  //showString("1 2...", 70, 50);
+  //showString("1 2...", 70, 100);
 
   EPD.partDisplay(0, 32, gImage_num1, 32, 32);
   EPD.partDisplay(0, 32, gImage_num2, 32, 32);
@@ -331,9 +331,11 @@ void showString(const char message[], int x, int y) {
 
   for(int letter=0; letter < messageLength; letter++) {
     for(int i=0;i<fontSize;i++) {
+
+      // if 0 <= message[letter] < 256 ok
       tempBuff[i] = ~cp437_font[message[letter]][i];
     }
-    EPD.partDisplay(x, y + letter * fontSize, tempBuff, fontSize, fontSize);
+    EPD.partDisplay(x, y - letter * fontSize, tempBuff, fontSize, fontSize);
   }
 
 }
