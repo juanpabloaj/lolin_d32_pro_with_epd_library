@@ -19,3 +19,5 @@ https://www.adafruit.com/product/1578
 * https://github.com/wemos/LOLIN_EPD_Library
 * https://github.com/G6EJD/ESP32-e-Paper-Weather-Display
 * https://randomnerdtutorials.com/esp32-timer-wake-up-deep-sleep/
+* https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/
+* https://docs.espressif.com/projects/esp-idf/en/latest/api-reference/system/sleep_modes.html
