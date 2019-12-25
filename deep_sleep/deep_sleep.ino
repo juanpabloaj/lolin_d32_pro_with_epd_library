@@ -23,11 +23,14 @@ LOLIN_IL3897 EPD(250, 122, EPD_DC, EPD_RST, EPD_CS, EPD_BUSY); //hardware SPI
 
 
 long SleepDurationMinutes = 1;
-int StartTime, CurrentHour = 0, CurrentMin = 0, CurrentSec = 0;
+int CurrentHour = 0, CurrentMin = 0, CurrentSec = 0;
+unsigned long StartTime;
+
 RTC_DATA_ATTR int wakeUpCounter = 0;
 
 void setup()
 {
+  StartTime = millis();
   Serial.begin(115200);
   EPD.begin();
   EPD.setTextSize(2);
@@ -55,6 +58,10 @@ void BeginSleep() {
   EPD.println("sleeping...");
   EPD.display();
   delay(1000);
+
+  //esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_FAST_MEM, ESP_PD_OPTION_OFF);
+  //esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_SLOW_MEM, ESP_PD_OPTION_OFF);
+  esp_sleep_pd_config(ESP_PD_DOMAIN_RTC_PERIPH, ESP_PD_OPTION_OFF);
   
   // Some ESP32 are too fast to maintain accurate time
   long SleepTimer = (SleepDurationMinutes * 60 - ((CurrentMin % SleepDurationMinutes) * 60 + CurrentSec)) + 5;
