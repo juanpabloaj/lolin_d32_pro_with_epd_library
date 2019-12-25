@@ -30,34 +30,27 @@ void setup()
   EPD.setTextSize(3);
   EPD.clearBuffer();
   EPD.setTextColor(EPD_BLACK);
-  EPD.println("hello world!");
   delay(100);
 }
 
 void loop()
 {
 
-  int ADC_VALUE = analogRead(35);
-  Serial.print("ADC VALUE = ");
-  Serial.println(ADC_VALUE);
-  int adc_percentage = int(100 * ADC_VALUE / 4095);
-  //delay(1000);
-  float voltage_value = (ADC_VALUE * 3.3 ) / (4095);
-  Serial.print("Voltage = ");
-  Serial.print(voltage_value);
-  Serial.println(" volts");
-  //delay(1000);
-
+  // LOLIN D32 (no voltage divider need already fitted to board.
+  // or NODEMCU ESP32 with 100K+100K voltage divider
+  uint8_t percentage = 100;
+  float voltage = analogRead(35) / 4096.0 * 7.23;
+  percentage = 2808.3808 * pow(voltage, 4) - 43560.9157 * pow(voltage, 3) + 252848.5888 * pow(voltage, 2) - 650767.4615 * voltage + 626532.5703;
+  if (voltage > 4.19) percentage = 100;
+  else if (voltage <= 3.50) percentage = 0;
 
   EPD.clearBuffer();
   EPD.fillScreen(EPD_WHITE);
   EPD.setCursor(0,0);
-  EPD.print(adc_percentage);
-  EPD.println("%");
-  EPD.setCursor(0,26);
-  EPD.println(voltage_value);
-  EPD.setCursor(0,52);
-  EPD.println(ADC_VALUE);
+
+  EPD.println(String(voltage)+"V " + String(percentage)+"%");
+
   EPD.display();
+
   delay(60000);
 }
